@@ -599,6 +599,9 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
     }
 
     protected float computeMinZoom() {
+        if (true) {
+            return 1;
+        }
         if (DEBUG) {
             Log.i(TAG, "computeMinZoom");
         }
