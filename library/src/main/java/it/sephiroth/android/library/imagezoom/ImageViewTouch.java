@@ -272,7 +272,7 @@ public class ImageViewTouch extends ImageViewTouchBase {
             }
         }
 
-        double bitmapScrollRectDelta = Math.abs(bitmapRect.left - mScrollPoint.x);
+        double bitmapScrollRectDelta = Math.abs(bitmapRect.left - imageViewRect.left);
         return bitmapScrollRectDelta > SCROLL_DELTA_THRESHOLD;
     }
 

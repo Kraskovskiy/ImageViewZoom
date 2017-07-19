@@ -3,7 +3,10 @@ apply plugin: 'com.android.library'
 group GROUP
 version VERSION_NAME
 
-dependencies {}
+dependencies {
+    compile 'com.android.support:support-core-ui:25.3.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+}
 
 android {
     compileSdkVersion ANDROID_BUILD_SDK_VERSION as int
