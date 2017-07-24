@@ -17,6 +17,7 @@ import android.view.ViewConfiguration;
 
 public class ImageViewTouch extends ImageViewTouchBase {
     static final float SCROLL_DELTA_THRESHOLD = 1.0f;
+    static final float DISMISS_SCREEN_PART_THRESHOLD = 0.25f;
     /**
      * minimum time between a scale event and a valid fling event
      */
@@ -241,7 +242,7 @@ public class ImageViewTouch extends ImageViewTouchBase {
     public boolean onUp(MotionEvent e) {
         if (mDismissingMode) {
             RectF centerRect = getCenter(mSuppMatrix, true, true);
-            if (Math.abs(centerRect.top) < getHeight() / 4.0) {
+            if (Math.abs(centerRect.top) < getHeight() * DISMISS_SCREEN_PART_THRESHOLD) {
                 double total = Math.sqrt(Math.pow(centerRect.left, 2) + Math.pow(centerRect.top, 2));
                 scrollBy(centerRect.left, centerRect.top, (long) Math.min(Math.max(300, total / 5), 800), false);
             } else {
