@@ -224,6 +224,8 @@ public class ImageViewTouch extends ImageViewTouchBase {
 
             if (!mDismissingMode) {
                 scrollBy(scaledDistanceX, scaledDistanceY, (long) Math.min(Math.max(300, total / 5), 800), false);
+            } else if (mSwipeToDismissListener != null) {
+                mSwipeToDismissListener.onDistanceChanged(scaledDistanceY);
             }
 
             postInvalidate();
