@@ -270,9 +270,11 @@ public class ImageViewTouch extends ImageViewTouchBase {
     public boolean canScroll() {
         if (getScale() > 1) {
             return true;
+        } else {
+            RectF bitmapRect = getBitmapRect();
+            return mViewPort.bottom - mViewPort.top > bitmapRect.bottom - bitmapRect.top ||
+                    mViewPort.right - mViewPort.left > bitmapRect.right - bitmapRect.left;
         }
-        RectF bitmapRect = getBitmapRect();
-        return !mViewPort.contains(bitmapRect);
     }
 
     /**
