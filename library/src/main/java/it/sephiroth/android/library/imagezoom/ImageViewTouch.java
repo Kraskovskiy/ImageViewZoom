@@ -17,7 +17,7 @@ import android.view.ViewConfiguration;
 
 public class ImageViewTouch extends ImageViewTouchBase {
     static final float SCROLL_DELTA_THRESHOLD = 1.0f;
-    static final float DISMISS_SCREEN_PART_THRESHOLD = 0.25f;
+    static final float DISMISS_SCREEN_PART_THRESHOLD = 0.20f;
     /**
      * minimum time between a scale event and a valid fling event
      */
