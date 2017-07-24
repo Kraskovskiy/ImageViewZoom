@@ -272,8 +272,8 @@ public class ImageViewTouch extends ImageViewTouchBase {
             return true;
         } else {
             RectF bitmapRect = getBitmapRect();
-            return mViewPort.bottom - mViewPort.top > bitmapRect.bottom - bitmapRect.top ||
-                    mViewPort.right - mViewPort.left > bitmapRect.right - bitmapRect.left;
+            return mViewPort.bottom - mViewPort.top > bitmapRect.bottom - bitmapRect.top
+                    || mViewPort.right - mViewPort.left > bitmapRect.right - bitmapRect.left;
         }
     }
 
