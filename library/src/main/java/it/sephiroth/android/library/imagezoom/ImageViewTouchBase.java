@@ -95,6 +95,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
     protected DisplayType mScaleType = DisplayType.FIT_IF_BIGGER;
     protected boolean mScaleTypeChanged;
     protected boolean mBitmapChanged;
+    protected boolean mDismissingMode;
     protected int mDefaultAnimationDuration;
     protected int mMinFlingVelocity;
     protected int mMaxFlingVelocity;
@@ -108,6 +109,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
     private Animator mCurrentAnimation;
     private OnDrawableChangeListener mDrawableChangeListener;
     private OnLayoutChangeListener mOnLayoutChangeListener;
+    protected OnSwipeToDismissListener mSwipeToDismissListener;
 
     public ImageViewTouchBase(Context context) {
         this(context, null);
@@ -132,6 +134,10 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 
     public void setOnLayoutChangeListener(OnLayoutChangeListener listener) {
         mOnLayoutChangeListener = listener;
+    }
+
+    public void setSwipeToDismissListener(ImageViewTouch.OnSwipeToDismissListener listener) {
+        mSwipeToDismissListener = listener;
     }
 
     protected void init(Context context, AttributeSet attrs, int defStyle) {
@@ -916,19 +922,11 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
     }
 
     protected void panBy(double dx, double dy) {
-        RectF rect = getBitmapRect();
         mScrollPoint.set((float) dx, (float) dy);
-        updateRect(rect, mScrollPoint);
 
         if (mScrollPoint.x != 0 || mScrollPoint.y != 0) {
             postTranslate(mScrollPoint.x, mScrollPoint.y);
-            center(true, true);
-        }
-    }
-
-    protected void updateRect(RectF bitmapRect, PointF scrollRect) {
-        if (bitmapRect == null) {
-            return;
+            if (!mDismissingMode) center(true, true);
         }
     }
 
@@ -939,7 +937,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
         }
     }
 
-    protected void scrollBy(float distanceX, float distanceY, final long durationMs) {
+    protected void scrollBy(float distanceX, float distanceY, final long durationMs, final boolean dismissOnEnd) {
         final ValueAnimator anim1 = ValueAnimator.ofFloat(0, distanceX).setDuration(durationMs);
         final ValueAnimator anim2 = ValueAnimator.ofFloat(0, distanceY).setDuration(durationMs);
 
@@ -981,9 +979,12 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
                 @Override
                 public void onAnimationEnd(final Animator animation) {
                     RectF centerRect = getCenter(mSuppMatrix, true, true);
-                    if (centerRect.left != 0 || centerRect.top != 0) {
+                    if (dismissOnEnd) {
+                        if (mSwipeToDismissListener != null) mSwipeToDismissListener.onDismiss();
+                    } else if (centerRect.left != 0 || centerRect.top != 0) {
                         scrollBy(centerRect.left, centerRect.top);
                     }
+                    mDismissingMode = false;
                 }
 
                 @Override
@@ -1048,5 +1049,10 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
         } else {
             super.onDraw(canvas);
         }
+    }
+
+    public interface OnSwipeToDismissListener {
+        void onDistanceChanged(float dY);
+        void onDismiss();
     }
 }

@@ -169,10 +169,23 @@ public class ImageViewTouch extends ImageViewTouchBase {
     }
 
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        if (!canScroll()) {
-            return false;
+        if (mDismissingMode) {
+            distanceX = 0;
         }
-        mUserScaled = true;
+
+        if (!canScroll()) {
+            if (distanceY != 0) {
+                mDismissingMode = true;
+                distanceX = 0;
+            } else {
+                return false;
+            }
+        }
+        if (!mDismissingMode) {
+            mUserScaled = true;
+        } else if (mSwipeToDismissListener != null) {
+            mSwipeToDismissListener.onDistanceChanged(distanceY);
+        }
         scrollBy(-distanceX, -distanceY);
         invalidate();
         return true;
@@ -208,7 +221,9 @@ public class ImageViewTouch extends ImageViewTouchBase {
 
             double total = Math.sqrt(Math.pow(scaledDistanceX, 2) + Math.pow(scaledDistanceY, 2));
 
-            scrollBy(scaledDistanceX, scaledDistanceY, (long) Math.min(Math.max(300, total / 5), 800));
+            if (!mDismissingMode) {
+                scrollBy(scaledDistanceX, scaledDistanceY, (long) Math.min(Math.max(300, total / 5), 800), false);
+            }
 
             postInvalidate();
             return true;
@@ -224,6 +239,16 @@ public class ImageViewTouch extends ImageViewTouchBase {
     }
 
     public boolean onUp(MotionEvent e) {
+        if (mDismissingMode) {
+            RectF centerRect = getCenter(mSuppMatrix, true, true);
+            if (Math.abs(centerRect.top) < getHeight() / 4f) {
+                double total = Math.sqrt(Math.pow(centerRect.left, 2) + Math.pow(centerRect.top, 2));
+                scrollBy(centerRect.left, centerRect.top, (long) Math.min(Math.max(300, total / 5), 800), false);
+            } else {
+                double total = Math.sqrt(Math.pow(centerRect.left, 2) + Math.pow(getHeight(), 2));
+                scrollBy(centerRect.left, centerRect.top > 0 ? -getHeight() : getHeight(), (long) Math.min(Math.max(400, total / 5), 900), true);
+            }
+        }
         if (getBitmapChanged()) {
             return false;
         }
@@ -258,7 +283,6 @@ public class ImageViewTouch extends ImageViewTouchBase {
     @SuppressWarnings ("unused")
     public boolean canScroll(int direction) {
         RectF bitmapRect = getBitmapRect();
-        updateRect(bitmapRect, mScrollPoint);
         Rect imageViewRect = new Rect();
         getGlobalVisibleRect(imageViewRect);
 

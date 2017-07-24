@@ -1,28 +1,17 @@
 package it.sephiroth.android.library.imagezoom.test;
 
 import android.app.Activity;
-import android.content.res.Configuration;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore.Images;
-import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import it.sephiroth.android.library.imagezoom.ImageViewTouch;
-import it.sephiroth.android.library.imagezoom.test.utils.DecodeUtils;
+import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
 
 public class ImageViewTestActivity extends Activity {
 
@@ -50,7 +39,18 @@ public class ImageViewTestActivity extends Activity {
             add("http://www.hdesktops.com/wp-content/uploads/2014/02/space-wall-paper-3.jpg");
             add("http://free4kwallpaper.com/wp-content/uploads/2016/01/Colored-Lights-Space-4K-Wallpaper.jpg");
             add("https://pic.xenomorph.ru/2011-09/1315673265_34.jpg");
-        }}));
+        }}, new ImageViewTouchBase.OnSwipeToDismissListener() {
+            @Override
+            public void onDistanceChanged(float dY) {
+                Log.w(ImageViewTestActivity.class.getSimpleName(), "onDistanceChanged: " + dY);
+            }
+
+            @Override
+            public void onDismiss() {
+                Log.w(ImageViewTestActivity.class.getSimpleName(), "onDismiss");
+                finish();
+            }
+        }));
 
 //        // set the default image display type
 //        mImage.setDisplayType(DisplayType.FIT_IF_BIGGER);
