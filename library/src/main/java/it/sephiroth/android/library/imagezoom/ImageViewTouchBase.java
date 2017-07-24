@@ -961,10 +961,14 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
                 public void onAnimationUpdate(final ValueAnimator animation) {
                     float valueX = (Float) anim1.getAnimatedValue();
                     float valueY = (Float) anim2.getAnimatedValue();
-                    panBy(valueX - oldValueX, valueY - oldValueY);
+                    float dY = valueY - oldValueY;
+                    panBy(valueX - oldValueX, dY);
                     oldValueX = valueX;
                     oldValueY = valueY;
                     postInvalidateOnAnimation();
+                    if (mDismissingMode && mSwipeToDismissListener != null) {
+                        mSwipeToDismissListener.onDistanceChanged(dY);
+                    }
                 }
             }
         );
