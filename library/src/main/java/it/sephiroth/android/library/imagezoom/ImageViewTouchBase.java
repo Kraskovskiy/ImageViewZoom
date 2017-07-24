@@ -967,7 +967,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
                     oldValueY = valueY;
                     postInvalidateOnAnimation();
                     if (mDismissingMode && mSwipeToDismissListener != null) {
-                        mSwipeToDismissListener.onDistanceChanged(dY);
+                        mSwipeToDismissListener.onDistanceChanged(-dY);
                     }
                 }
             }
