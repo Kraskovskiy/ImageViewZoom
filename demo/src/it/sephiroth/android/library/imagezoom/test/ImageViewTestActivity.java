@@ -40,9 +40,13 @@ public class ImageViewTestActivity extends Activity {
             add("http://free4kwallpaper.com/wp-content/uploads/2016/01/Colored-Lights-Space-4K-Wallpaper.jpg");
             add("https://pic.xenomorph.ru/2011-09/1315673265_34.jpg");
         }}, new ImageViewTouchBase.OnSwipeToDismissListener() {
+
+            float offsetY;
+
             @Override
             public void onDistanceChanged(float dY) {
-                Log.w(ImageViewTestActivity.class.getSimpleName(), "onDistanceChanged: " + dY);
+                offsetY += dY;
+                Log.w(ImageViewTestActivity.class.getSimpleName(), "offsetY=" + offsetY + " onDistanceChanged: " + dY);
             }
 
             @Override
