@@ -330,7 +330,6 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
                 }
 
                 if (!mDismissingMode) {
-                    Log.w("check:", "center1");
                     center(true, true);
                 }
                 if (mBitmapChanged) {
@@ -800,7 +799,6 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
     }
 
     protected void center(boolean horizontal, boolean vertical) {
-        Log.w("check:", "center!!!");
         final Drawable drawable = getDrawable();
         if (drawable == null) {
             return;
@@ -903,8 +901,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
         float deltaScale = scale / oldScale;
         postScale(deltaScale, centerX, centerY);
         onZoom(getScale());
-        Log.w("check:", "center3");
-        center(true, true);
+        if (!mDismissingMode) center(true, true);
     }
 
     @SuppressWarnings ("unused")
@@ -931,7 +928,6 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
         if (mScrollPoint.x != 0 || mScrollPoint.y != 0) {
             postTranslate(mScrollPoint.x, mScrollPoint.y);
             if (!mDismissingMode) {
-                Log.w("check:", "center2");
                 center(true, true);
             }
         }
