@@ -269,7 +269,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
                     }
 
                     if (mNextMatrix != null) {
-                        if (!mDismissingMode) mSuppMatrix.set(mNextMatrix);
+                        mSuppMatrix.set(mNextMatrix);
                         mNextMatrix = null;
                         scale = getScale();
                     } else {
