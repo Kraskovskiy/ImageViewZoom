@@ -329,8 +329,9 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
                     zoomTo(scale);
                 }
 
-                center(true, true);
-
+                if (!mDismissingMode) {
+                    center(true, true);
+                }
                 if (mBitmapChanged) {
                     onDrawableChanged(drawable);
                 }
