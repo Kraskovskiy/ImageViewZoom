@@ -496,7 +496,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
     }
 
     protected void setImageDrawableInternal(final Drawable drawable, final Matrix initialMatrix, float minZoom, float maxZoom) {
-        mBaseMatrix.reset();
+        if (!mDismissingMode) mBaseMatrix.reset();
         super.setImageDrawable(drawable);
 
         if (minZoom != ZOOM_INVALID && maxZoom != ZOOM_INVALID) {
