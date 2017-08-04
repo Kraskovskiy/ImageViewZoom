@@ -298,6 +298,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
                     }
 
                     setImageMatrix(getImageViewMatrix());
+                    Log.w("check:", "postTranslate1");
                     postTranslate(-deltaX, -deltaY);
 
                     if (!mUserScaled) {
@@ -799,6 +800,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
     }
 
     protected void center(boolean horizontal, boolean vertical) {
+        Log.w("check:", "center");
         final Drawable drawable = getDrawable();
         if (drawable == null) {
             return;
@@ -926,7 +928,6 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
         mScrollPoint.set((float) dx, (float) dy);
 
         if (mScrollPoint.x != 0 || mScrollPoint.y != 0) {
-            postTranslate(mScrollPoint.x, mScrollPoint.y);
             if (!mDismissingMode) {
                 center(true, true);
             }
