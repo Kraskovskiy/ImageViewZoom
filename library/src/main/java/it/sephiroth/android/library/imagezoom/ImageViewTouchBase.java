@@ -298,7 +298,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
                     }
 
                     setImageMatrix(getImageViewMatrix());
-                    Log.w("check:", "postTranslate1");
+                    Log.w("check:", "postTranslate2");
                     postTranslate(-deltaX, -deltaY);
 
                     if (!mUserScaled) {
@@ -809,6 +809,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
         RectF rect = getCenter(mSuppMatrix, horizontal, vertical);
 
         if (rect.left != 0 || rect.top != 0) {
+            Log.w("check:", "postTranslate1");
             postTranslate(rect.left, rect.top);
         }
     }
@@ -848,6 +849,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
     }
 
     protected void postTranslate(float deltaX, float deltaY) {
+        Log.w("check:", "postTranslate: " + deltaY);
         if (deltaX != 0 || deltaY != 0) {
             mSuppMatrix.postTranslate(deltaX, deltaY);
             setImageMatrix(getImageViewMatrix());
@@ -928,6 +930,8 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
         mScrollPoint.set((float) dx, (float) dy);
 
         if (mScrollPoint.x != 0 || mScrollPoint.y != 0) {
+            Log.w("check:", "postTranslate3");
+            postTranslate(mScrollPoint.x, mScrollPoint.y);
             if (!mDismissingMode) {
                 center(true, true);
             }
