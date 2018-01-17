@@ -285,13 +285,13 @@ public class ImageViewTouch extends ImageViewTouchBase {
      *                  negative value means scroll from left to right
      * @return true if there is some more place to scroll, false - otherwise.
      */
-    @SuppressWarnings ("unused")
+    @SuppressWarnings("unused")
     public boolean canScroll(int direction) {
         RectF bitmapRect = getBitmapRect();
         Rect imageViewRect = new Rect();
         getGlobalVisibleRect(imageViewRect);
 
-        if (null == bitmapRect || getScale() == DEFAULT_SCALE) {
+        if (null == bitmapRect || getScale() == DEFAULT_SCALE || (getScale() <= 1.001f && bitmapRect.width() <= imageViewRect.width())) {
             return false;
         }
 
