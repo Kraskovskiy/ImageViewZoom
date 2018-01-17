@@ -292,9 +292,9 @@ public class ImageViewTouch extends ImageViewTouchBase {
         Rect imageViewRect = new Rect();
         getGlobalVisibleRect(imageViewRect);
 
-        if (null == bitmapRect ||
-                getScale() == DEFAULT_SCALE ||
-                (getScale() <= MAX_SCALE && bitmapRect.width() <= imageViewRect.width())) {
+        if (null == bitmapRect
+                || getScale() == DEFAULT_SCALE
+                || (getScale() <= MAX_SCALE && bitmapRect.width() <= imageViewRect.width())) {
             return false;
         }
 
