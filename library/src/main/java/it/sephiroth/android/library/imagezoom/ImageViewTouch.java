@@ -18,6 +18,7 @@ import android.view.ViewConfiguration;
 public class ImageViewTouch extends ImageViewTouchBase {
     static final float SCROLL_DELTA_THRESHOLD = 1.0f;
     static final float DEFAULT_SCALE = 1.0f;
+    static final float MAX_SCALE = 1.001f;
     static final float DISMISS_SCREEN_PART_THRESHOLD = 0.20f;
     /**
      * minimum time between a scale event and a valid fling event
@@ -291,7 +292,9 @@ public class ImageViewTouch extends ImageViewTouchBase {
         Rect imageViewRect = new Rect();
         getGlobalVisibleRect(imageViewRect);
 
-        if (null == bitmapRect || getScale() == DEFAULT_SCALE || (getScale() <= 1.001f && bitmapRect.width() <= imageViewRect.width())) {
+        if (null == bitmapRect ||
+                getScale() == DEFAULT_SCALE ||
+                (getScale() <= MAX_SCALE && bitmapRect.width() <= imageViewRect.width())) {
             return false;
         }
 
